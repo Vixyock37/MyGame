@@ -15,11 +15,11 @@ import java.util.Set;
 public class Hero extends GameObject{
     boolean left,up,right,down;
     boolean live = true;
-    private Set<Character> direction = new LinkedHashSet<>();
+    private String direction= "W";
     private ArrayList<Bullet> bullets = new ArrayList<>();
-    private char lastkey = 'W';
 
 
+    String s;
     public Hero(Image img, double x, double y) {
         this.img = img;
         this.x = x;
@@ -64,55 +64,63 @@ public class Hero extends GameObject{
     //定义键盘与方向
     //按下键位时,走向某个方向
     public void addDirection(KeyEvent e) {
-        switch(e.getKeyCode()) {
-            case KeyEvent.VK_A:
-                direction.add('W');
-                direction.remove('E');
-                lastkey='W';
-                right = false;
-                left = true;
-                break;
-            case KeyEvent.VK_W:
-                direction.add('N');
-                direction.remove('S');
-                lastkey='N';
-                down = false;
-                up = true;
-                break;
-            case KeyEvent.VK_D:
-                direction.add('E');
-                direction.remove('W');
-                lastkey='E';
-                left = false;
-                right = true;
-                break;
-            case KeyEvent.VK_S:
-                direction.add('S');
-                direction.remove('N');
-                lastkey='S';
-                up = false;
-                down = true;
-                break;
-        }
+        if((left&&e.getKeyCode()==KeyEvent.VK_W)||(e.getKeyCode()==KeyEvent.VK_A&&up)) {direction="NW";up=true;left = true;}
+        else if((up&&e.getKeyCode()==KeyEvent.VK_D)||(e.getKeyCode()==KeyEvent.VK_W&&right)) {direction="NE";right=true;up = true;}
+        else if((right&&e.getKeyCode()==KeyEvent.VK_S)||(e.getKeyCode()==KeyEvent.VK_D&&down)) {direction="SE";right=true;down = true;}
+        else if((down&&e.getKeyCode()==KeyEvent.VK_A)||(e.getKeyCode()==KeyEvent.VK_S&&left)) {direction="SW";down=true;left = true;}
+        else if(e.getKeyCode()==KeyEvent.VK_A){direction="W";right = false;left = true;}
+        else if(e.getKeyCode()==KeyEvent.VK_W){direction="N";down = false;up = true;}
+        else if(e.getKeyCode()==KeyEvent.VK_D){direction="E";left = false;right = true;}
+        else if(e.getKeyCode()==KeyEvent.VK_S){direction="S";up = false;down = true;}
+//        switch(e.getKeyCode()) {
+//            case KeyEvent.VK_A:
+//                direction.add('W');
+//                direction.remove('E');
+//                lastkey='W';
+//                right = false;
+//                left = true;
+//                break;
+//            case KeyEvent.VK_W:
+//                direction.add('N');
+//                direction.remove('S');
+//                lastkey='N';
+//                down = false;
+//                up = true;
+//                break;
+//            case KeyEvent.VK_D:
+//                direction.add('E');
+//                direction.remove('W');
+//                lastkey='E';
+//                left = false;
+//                right = true;
+//                break;
+//            case KeyEvent.VK_S:
+//                direction.add('S');
+//                direction.remove('N');
+//                lastkey='S';
+//                up = false;
+//                down = true;
+//                break;
+//        }
     }
 
     //抬起某个键，取消相应的方向
     public void minusDirection(KeyEvent e) {
         switch(e.getKeyCode()) {
             case KeyEvent.VK_A:
-                direction.remove('W');
+                direction.replace('W','x');
                 left = false;
                 break;
             case KeyEvent.VK_W:
-                direction.remove('N');
+                direction.replace('N','x');
                 up = false;
                 break;
             case KeyEvent.VK_D:
-                direction.remove('E');
+                direction.replace('E','x');
                 right = false;
                 break;
             case KeyEvent.VK_S:
-                direction.remove('S');
+                direction.replace('S','x');
                 down = false;
                 break;
         }

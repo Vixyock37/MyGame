@@ -11,7 +11,7 @@ import java.util.Set;
  */
 
 public class Bullet extends GameObject{
-    private Set<Character> direction;
+    private String direction;
 
     public Bullet(double x, double y){
         this.x = x;
@@ -19,7 +19,7 @@ public class Bullet extends GameObject{
         width = 13;
         height = 13;
         speed = 3;
-        direction = new LinkedHashSet<>();
+        direction = "W";
     }
 
 
@@ -29,17 +29,10 @@ public class Bullet extends GameObject{
 
         g.fillOval((int) x, (int) y, width, height);
 
-        Iterator i = direction.iterator();
-        System.out.println(this);
-        while (i.hasNext()) {
-            System.out.print(i.next());
-        }
-        System.out.println();
-
-        if(this.direction.contains('E')) this.x+=speed;
-        if(this.direction.contains('W')) this.x-=speed;
-        if(this.direction.contains('N')) this.y-=speed;
-        if(this.direction.contains('S')) this.y+=speed;
+        if(this.direction.contains("E")) this.x+=speed;
+        if(this.direction.contains("W")) this.x-=speed;
+        if(this.direction.contains("N")) this.y-=speed;
+        if(this.direction.contains("S")) this.y+=speed;
 
         g.setColor(c);
     }
@@ -51,14 +44,11 @@ public class Bullet extends GameObject{
         else return false;
     }
 
-    public void setDirection(Set<Character> tdirection) {
-        Iterator it = tdirection.iterator();
-        while (it.hasNext()) {
-            direction.add((Character) it.next());
-        }
+    public void setDirection(String tdirection) {
+        direction=tdirection;
     }
 
-    public Set<Character> getDirection() {
+    public String getDirection() {
         return direction;
     }
 }

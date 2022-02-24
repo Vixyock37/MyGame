@@ -14,12 +14,12 @@ import java.util.Date;
 
 public class GameFrame extends Frame {
     Image heroImg = GameUtil.getImage("images/Jadu.png");
-    ;
     Image gansterImg = GameUtil.getImage("images/kittyfish.png");
     Image bg = GameUtil.getImage("images/bg.png");
-    ;
+
 
     Hero hero = new Hero(heroImg, 200, 200);
+
     //    GansterGroup gansterGroupE = new GansterGroup('E');
 //    GansterGroup gansterGroupS = new GansterGroup('S');
     GansterGroup gansterGroupW = new GansterGroup('W');
@@ -37,33 +37,11 @@ public class GameFrame extends Frame {
 
         hero.drawSelf(g);
 
-        //画出所有的匪徒
-
-        for (Ganster ganster : gansterGroupN.getGansters()) {
-            ganster.drawGanster(g);
-
-            ////匪徒和英雄的碰撞检测
-            boolean crashed = ganster.getRect().intersects(hero.getRect());
-            if (crashed) {
-                hero.live = false;
-                if (hit == null) {
-                    hit = new Hit(hero.x, hero.y);
-
-                    endTime = new Date();
-                    period = (int) ((endTime.getTime() - startTime.getTime()) / 1000);
-                }
-                hit.draw(g);
-            }
-
-            //计时功能，给出提示
-            if (!hero.live) {
-                Font f = new Font("宋体", Font.BOLD, 30);
-                g.setFont(f);
-                g.setColor(Color.black);
-                g.drawString("游戏时间：" + period + "秒", 150, 250);
-            }
+        for(Bullet herobullet: hero.getBullets()){
+            herobullet.drawBullet(g);
         }
 
+        //画出所有的匪徒(West gang)
         for (Ganster ganster : gansterGroupW.getGansters()) {
             ganster.drawGanster(g);
 
@@ -90,31 +68,6 @@ public class GameFrame extends Frame {
             }
         }
 
-//        for (Ganster ganster : gansterGroupS.getGansters()) {
-//            ganster.drawGanster(g);
-//
-//            //匪徒和英雄的碰撞检测
-//            boolean crashed = ganster.getRect().intersects(hero.getRect());
-//
-//            if (crashed) {
-//                hero.live = false;
-//                if (hit == null) {
-//                    hit = new Hit(hero.x, hero.y);
-//
-//                    endTime = new Date();
-//                    period = (int) ((endTime.getTime() - startTime.getTime()) / 1000);
-//                }
-//                hit.draw(g);
-//            }
-//
-//            //计时功能，给出提示
-//            if (!hero.live) {
-//                Font f = new Font("宋体", Font.BOLD, 30);
-//                g.setFont(f);
-//                g.setColor(Color.red);
-//                g.drawString("游戏时间：" + period + "秒", 150, 250);
-//            }
-//        }
 
     }
 
@@ -125,10 +78,24 @@ public class GameFrame extends Frame {
         public void run() {
             while (true) {
                 try {
-                    gansterGroupN.makeGansterGroup(gansterImg);
+//                    gansterGroupN.makeGansterGroup(gansterImg);
 //                    gansterGroupS.makeGansterGroup(gansterImg);
-//                    gansterGroupW.makeGansterGroup(gansterImg);
+                    gansterGroupW.makeGansterGroup(gansterImg);
                     Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    //此线程让英雄打枪
+    class HeroShoot extends Thread {
+        @Override
+        public void run() {
+            while (true) {
+                hero.shoot();
+                try {
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -179,8 +146,9 @@ public class GameFrame extends Frame {
             }
         });
 
+        new HeroShoot().start();    //启动英雄打枪进程
         new PaintThread().start(); //启动重画窗口的线程
-        new MakeGansterThread().start();
+//        new MakeGansterThread().start();    //启动匪徒出生线程
         addKeyListener(new KeyMonitor());
 
         //初始化匪徒

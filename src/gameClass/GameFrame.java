@@ -21,7 +21,7 @@ public class GameFrame extends Frame {
 
     Hero hero = new Hero(heroImg, 200, 200);
     //    GansterGroup gansterGroupE = new GansterGroup('E');
-    GansterGroup gansterGroupS = new GansterGroup('S');
+//    GansterGroup gansterGroupS = new GansterGroup('S');
     GansterGroup gansterGroupW = new GansterGroup('W');
     GansterGroup gansterGroupN = new GansterGroup('N');
     Hit hit;
@@ -59,7 +59,7 @@ public class GameFrame extends Frame {
             if (!hero.live) {
                 Font f = new Font("宋体", Font.BOLD, 30);
                 g.setFont(f);
-                g.setColor(Color.red);
+                g.setColor(Color.black);
                 g.drawString("游戏时间：" + period + "秒", 150, 250);
             }
         }
@@ -90,31 +90,31 @@ public class GameFrame extends Frame {
             }
         }
 
-        for (Ganster ganster : gansterGroupS.getGansters()) {
-            ganster.drawGanster(g);
-
-            //匪徒和英雄的碰撞检测
-            boolean crashed = ganster.getRect().intersects(hero.getRect());
-
-            if (crashed) {
-                hero.live = false;
-                if (hit == null) {
-                    hit = new Hit(hero.x, hero.y);
-
-                    endTime = new Date();
-                    period = (int) ((endTime.getTime() - startTime.getTime()) / 1000);
-                }
-                hit.draw(g);
-            }
-
-            //计时功能，给出提示
-            if (!hero.live) {
-                Font f = new Font("宋体", Font.BOLD, 30);
-                g.setFont(f);
-                g.setColor(Color.red);
-                g.drawString("游戏时间：" + period + "秒", 150, 250);
-            }
-        }
+//        for (Ganster ganster : gansterGroupS.getGansters()) {
+//            ganster.drawGanster(g);
+//
+//            //匪徒和英雄的碰撞检测
+//            boolean crashed = ganster.getRect().intersects(hero.getRect());
+//
+//            if (crashed) {
+//                hero.live = false;
+//                if (hit == null) {
+//                    hit = new Hit(hero.x, hero.y);
+//
+//                    endTime = new Date();
+//                    period = (int) ((endTime.getTime() - startTime.getTime()) / 1000);
+//                }
+//                hit.draw(g);
+//            }
+//
+//            //计时功能，给出提示
+//            if (!hero.live) {
+//                Font f = new Font("宋体", Font.BOLD, 30);
+//                g.setFont(f);
+//                g.setColor(Color.red);
+//                g.drawString("游戏时间：" + period + "秒", 150, 250);
+//            }
+//        }
 
     }
 

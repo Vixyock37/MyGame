@@ -42,75 +42,16 @@ public class GameFrame extends Frame {
                     herobullet = null;
                 } else {
                     herobullet.drawBullet(g);
-                    for (Ganster ganster : gansterGroupW.getGansters()) {
-                        boolean hit_ganster = herobullet.getRect().intersects(ganster.getRect());
-                        if (hit_ganster) {
-                            ganster.img = null;
-                            gansterGroupW.getGansters().remove(ganster);
-                        }
-                    }
-                    for (Ganster ganster : gansterGroupN.getGansters()) {
-                        boolean hit_ganster = herobullet.getRect().intersects(ganster.getRect());
-                        if (hit_ganster) {
-                            ganster.img = null;
-                            gansterGroupN.getGansters().remove(ganster);
-                        }
-                    }
+                    checkGansterHit(gansterGroupW,herobullet);
+                    checkGansterHit(gansterGroupN,herobullet);
                 }
             }
         }
 
         //画出所有的匪徒(West gang)
-        for (Ganster ganster : gansterGroupW.getGansters()) {
-            ganster.drawGanster(g);
-
-            //匪徒和英雄的碰撞检测
-            boolean crashed_hero_ganster = ganster.getRect().intersects(hero.getRect());
-
-            if (crashed_hero_ganster) {
-                hero.live = false;
-                if (hit == null) {
-                    hit = new Hit(hero.x, hero.y);
-                    endTime = new Date();
-                    period = (int) ((endTime.getTime() - startTime.getTime()) / 1000);
-                }
-                hit.draw(g);
-            }
-
-            //计时功能，给出提示
-            if (!hero.live) {
-                Font f = new Font("宋体", Font.BOLD, 30);
-                g.setFont(f);
-                g.setColor(Color.red);
-                g.drawString("游戏时间：" + period + "秒", 150, 250);
-            }
-        }
-
+        checkHeroAndGanster(g,gansterGroupW);
         //画出所有的匪徒(North gang)
-        for (Ganster ganster : gansterGroupN.getGansters()) {
-            ganster.drawGanster(g);
-
-            //匪徒和英雄的碰撞检测
-            boolean crashed_hero_ganster = ganster.getRect().intersects(hero.getRect());
-
-            if (crashed_hero_ganster) {
-                hero.live = false;
-                if (hit == null) {
-                    hit = new Hit(hero.x, hero.y);
-                    endTime = new Date();
-                    period = (int) ((endTime.getTime() - startTime.getTime()) / 1000);
-                }
-                hit.draw(g);
-            }
-
-            //计时功能，给出提示
-            if (!hero.live) {
-                Font f = new Font("宋体", Font.BOLD, 30);
-                g.setFont(f);
-                g.setColor(Color.red);
-                g.drawString("游戏时间：" + period + "秒", 150, 250);
-            }
-        }
+        checkHeroAndGanster(g,gansterGroupN);
     }
 
 
@@ -211,5 +152,44 @@ public class GameFrame extends Frame {
         Graphics gOff = offScreenImage.getGraphics();
         paint(gOff);
         g.drawImage(offScreenImage, 0, 0, null);
+    }
+
+    public void checkHeroAndGanster(Graphics g, GansterGroup gansterGroup){
+        for (Ganster ganster : gansterGroup.getGansters()) {
+            ganster.drawGanster(g);
+
+            //匪徒和英雄的碰撞检测
+            boolean crashed_hero_ganster = ganster.getRect().intersects(hero.getRect());
+
+            if (crashed_hero_ganster) {
+                ganster.img = null;
+                ganster=null;
+                hero.live = false;
+                if (hit == null) {
+                    hit = new Hit(hero.x, hero.y);
+                    endTime = new Date();
+                    period = (int) ((endTime.getTime() - startTime.getTime()) / 1000);
+                }
+                hit.draw(g);
+            }
+
+            //计时功能，给出提示
+            if (!hero.live) {
+                Font f = new Font("宋体", Font.BOLD, 30);
+                g.setFont(f);
+                g.setColor(Color.black);
+                g.drawString("游戏时间：" + period + "秒", 150, 250);
+            }
+        }
+    }
+
+    public void checkGansterHit(GansterGroup gansterGroup,Bullet herobullet){
+        for (Ganster ganster : gansterGroup.getGansters()) {
+            boolean hit_ganster = herobullet.getRect().intersects(ganster.getRect());
+            if (hit_ganster) {
+                ganster.img = null;
+                gansterGroup.getGansters().remove(ganster);
+            }
+        }
     }
 }

@@ -91,10 +91,9 @@ public class GameFrame extends Frame {
         public void run() {
             while (true) {
                 try {
-                    period = (int) (( new Date().getTime() - startTime.getTime()) / 1000);
 //                    gansterGroupN.makeGansterGroup(gansterImg);
 //                    gansterGroupS.makeGansterGroup(gansterImg);
-                    gansterGroupW.makeGansterGroup(gansterImg,period);
+                    gansterGroupW.makeGansterGroup(gansterImg);
                     Thread.sleep(10);
                 } catch (InterruptedException e) {
                     e.printStackTrace();

@@ -11,25 +11,17 @@ import java.util.Set;
  */
 
 public class Bullet extends GameObject{
-    private Set<Character> direction = new LinkedHashSet<>();
+    private Set<Character> direction;
 
     public Bullet(double x, double y){
         this.x = x;
         this.y = y;
         width = 13;
         height = 13;
-        speed = 4;
-        direction = null;
+        speed = 3;
+        direction = new LinkedHashSet<>();
     }
 
-    public Bullet(double x, double y, Set<Character> tdirection){
-        this.x = x;
-        this.y = y;
-        width = 13;
-        height = 13;
-        speed = 3;
-        direction = tdirection;
-    }
 
     public void drawBullet(Graphics g) {
         Color c = g.getColor();
@@ -59,4 +51,14 @@ public class Bullet extends GameObject{
         else return false;
     }
 
+    public void setDirection(Set<Character> tdirection) {
+        Iterator it = tdirection.iterator();
+        while (it.hasNext()) {
+            direction.add((Character) it.next());
+        }
+    }
+
+    public Set<Character> getDirection() {
+        return direction;
+    }
 }

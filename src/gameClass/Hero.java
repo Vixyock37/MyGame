@@ -26,11 +26,17 @@ public class Hero extends GameObject{
         this.speed = 3;
         this.width = img.getWidth(null);
         this.height = img.getHeight(null);
+        direction.add('L');
+    }
+
+    public void reload(){
+        Bullet bullet = new Bullet(this.x, this.y);
+        bullet.setDirection(direction);
+        bullets.add(bullet);
     }
 
     public void shoot() {
-        Bullet bullet = new Bullet(this.x,this.y,this.direction);
-        bullets.add(bullet);
+        reload();
     }
 
     @Override
@@ -60,25 +66,21 @@ public class Hero extends GameObject{
         switch(e.getKeyCode()) {
             case KeyEvent.VK_A:
                 direction.add('W');
-                direction.remove('E');
                 right = false;
                 left = true;
                 break;
             case KeyEvent.VK_W:
                 direction.add('N');
-                direction.remove('S');
                 down = false;
                 up = true;
                 break;
             case KeyEvent.VK_D:
                 direction.add('E');
-                direction.remove('W');
                 left = false;
                 right = true;
                 break;
             case KeyEvent.VK_S:
                 direction.add('S');
-                direction.remove('N');
                 up = false;
                 down = true;
                 break;
@@ -90,15 +92,19 @@ public class Hero extends GameObject{
         switch(e.getKeyCode()) {
             case KeyEvent.VK_A:
                 left = false;
+                direction.remove('W');
                 break;
             case KeyEvent.VK_W:
                 up = false;
+                direction.remove('N');
                 break;
             case KeyEvent.VK_D:
                 right = false;
+                direction.remove('E');
                 break;
             case KeyEvent.VK_S:
                 down = false;
+                direction.remove('S');
                 break;
         }
     }

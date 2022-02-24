@@ -123,7 +123,7 @@ public class GameFrame extends Frame {
             while (true) {
                 repaint();  //重画
                 try {
-                    Thread.sleep(10);
+                    Thread.sleep(9);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -161,7 +161,7 @@ public class GameFrame extends Frame {
 
         new HeroShoot().start();    //启动英雄打枪进程
         new PaintThread().start(); //启动重画窗口的线程
-        new MakeGansterThread().start();    //启动匪徒出生线程
+//        new MakeGansterThread().start();    //启动匪徒出生线程
         addKeyListener(new KeyMonitor());
 
         //初始化匪徒

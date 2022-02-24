@@ -13,7 +13,7 @@ import java.util.Date;
  */
 
 public class GameFrame extends Frame {
-    Image heroImg = GameUtil.getImage("images/Jadu.png");
+    Image heroImg = GameUtil.getImage("images/Aaron.png");
     Image gansterImg = GameUtil.getImage("images/kittyfish.png");
     Image bg = GameUtil.getImage("images/bg.png");
 
@@ -47,7 +47,6 @@ public class GameFrame extends Frame {
                         if (hit_ganster) {
                             ganster.img = null;
                             gansterGroupW.getGansters().remove(ganster);
-                            ganster = null;
                         }
                     }
                 }
@@ -65,7 +64,6 @@ public class GameFrame extends Frame {
                 hero.live = false;
                 if (hit == null) {
                     hit = new Hit(hero.x, hero.y);
-
                     endTime = new Date();
                     period = (int) ((endTime.getTime() - startTime.getTime()) / 1000);
                 }
@@ -161,7 +159,7 @@ public class GameFrame extends Frame {
 
         new HeroShoot().start();    //启动英雄打枪进程
         new PaintThread().start(); //启动重画窗口的线程
-//        new MakeGansterThread().start();    //启动匪徒出生线程
+        new MakeGansterThread().start();    //启动匪徒出生线程
         addKeyListener(new KeyMonitor());
 
         //初始化匪徒

@@ -72,36 +72,6 @@ public class Hero extends GameObject{
         else if(e.getKeyCode()==KeyEvent.VK_W){direction="N";down = false;up = true;}
         else if(e.getKeyCode()==KeyEvent.VK_D){direction="E";left = false;right = true;}
         else if(e.getKeyCode()==KeyEvent.VK_S){direction="S";up = false;down = true;}
-//        switch(e.getKeyCode()) {
-//            case KeyEvent.VK_A:
-//                direction.add('W');
-//                direction.remove('E');
-//                lastkey='W';
-//                right = false;
-//                left = true;
-//                break;
-//            case KeyEvent.VK_W:
-//                direction.add('N');
-//                direction.remove('S');
-//                lastkey='N';
-//                down = false;
-//                up = true;
-//                break;
-//            case KeyEvent.VK_D:
-//                direction.add('E');
-//                direction.remove('W');
-//                lastkey='E';
-//                left = false;
-//                right = true;
-//                break;
-//            case KeyEvent.VK_S:
-//                direction.add('S');
-//                direction.remove('N');
-//                lastkey='S';
-//                up = false;
-//                down = true;
-//                break;
-//        }
     }
 
     //抬起某个键，取消相应的方向

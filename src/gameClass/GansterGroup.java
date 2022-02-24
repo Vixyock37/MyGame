@@ -38,8 +38,8 @@ public class GansterGroup {
 
     //·ËÍ½À­°ï½áÅÉ
     public void makeGansterGroup(Image img) {
-        if (gansters.size() < 25) {
-            for (int i = 0; i < new Random().nextInt(4) + 1; i++) {
+        if (gansters.size() < 10) {
+            for (int i = 0; i < new Random().nextInt(2) + 1; i++) {
                 Ganster ganster = this.makeGanster(img);
                 gansters.add(ganster);
             }

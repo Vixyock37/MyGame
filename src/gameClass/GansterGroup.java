@@ -37,12 +37,15 @@ public class GansterGroup {
     }
 
     //·ËÍ½À­°ï½áÅÉ
-    public void makeGansterGroup(Image img) {
-        if (gansters.size() < 10) {
-            for (int i = 0; i < new Random().nextInt(2) + 1; i++) {
+    public void makeGansterGroup(Image img,int period) throws InterruptedException {
+        if (gansters.size() < 60) {
+            int random = (new Random().nextInt(3)*(period/2))+2;
+            int amount_once = random>10?10:random;
+            for (int i = 0; i < amount_once; i++) {
                 Ganster ganster = this.makeGanster(img);
                 gansters.add(ganster);
             }
+            Thread.sleep(3000);
         }
     }
 

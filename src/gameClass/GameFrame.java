@@ -49,6 +49,13 @@ public class GameFrame extends Frame {
                             gansterGroupW.getGansters().remove(ganster);
                         }
                     }
+                    for (Ganster ganster : gansterGroupN.getGansters()) {
+                        boolean hit_ganster = herobullet.getRect().intersects(ganster.getRect());
+                        if (hit_ganster) {
+                            ganster.img = null;
+                            gansterGroupN.getGansters().remove(ganster);
+                        }
+                    }
                 }
             }
         }
@@ -79,7 +86,31 @@ public class GameFrame extends Frame {
             }
         }
 
+        //画出所有的匪徒(North gang)
+        for (Ganster ganster : gansterGroupN.getGansters()) {
+            ganster.drawGanster(g);
 
+            //匪徒和英雄的碰撞检测
+            boolean crashed_hero_ganster = ganster.getRect().intersects(hero.getRect());
+
+            if (crashed_hero_ganster) {
+                hero.live = false;
+                if (hit == null) {
+                    hit = new Hit(hero.x, hero.y);
+                    endTime = new Date();
+                    period = (int) ((endTime.getTime() - startTime.getTime()) / 1000);
+                }
+                hit.draw(g);
+            }
+
+            //计时功能，给出提示
+            if (!hero.live) {
+                Font f = new Font("宋体", Font.BOLD, 30);
+                g.setFont(f);
+                g.setColor(Color.red);
+                g.drawString("游戏时间：" + period + "秒", 150, 250);
+            }
+        }
     }
 
 
@@ -89,9 +120,10 @@ public class GameFrame extends Frame {
         public void run() {
             while (true) {
                 try {
-//                    gansterGroupN.makeGansterGroup(gansterImg);
+                    int level = (int) (( new Date().getTime() - startTime.getTime()) / 1000);
+                    gansterGroupN.makeGansterGroup(gansterImg,level);
 //                    gansterGroupS.makeGansterGroup(gansterImg);
-                    gansterGroupW.makeGansterGroup(gansterImg);
+                    gansterGroupW.makeGansterGroup(gansterImg,level);
                     Thread.sleep(10);
                 } catch (InterruptedException e) {
                     e.printStackTrace();

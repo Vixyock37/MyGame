@@ -10,7 +10,7 @@ import java.awt.*;
 public class Hit {
     double x,y;
 //    static Image[] imgs = new Image[16];
-    static Image img = GameUtil.getImage("images/Jadu.png");
+    static Image img = GameUtil.getImage("images/Aaron.png");
     static {
 //        for(int i=0;i<16;i++){
 //            imgs[i] = GameUtil.getImage("images/explode/e"+(i+1)+".gif");

@@ -16,9 +16,9 @@ public class Bullet extends GameObject{
     public Bullet(double x, double y){
         this.x = x;
         this.y = y;
-        width = 13;
-        height = 13;
-        speed = 3;
+        width = 20;
+        height = 20;
+        speed = 4;
         direction = "W";
     }
 

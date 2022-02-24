@@ -31,7 +31,7 @@ public class Hero extends GameObject{
     }
 
     public void reload(){
-        Bullet bullet = new Bullet(this.x, this.y);
+        Bullet bullet = new Bullet(this.x+20, this.y+20);
         bullet.setDirection(direction);
         bullets.add(bullet);
     }

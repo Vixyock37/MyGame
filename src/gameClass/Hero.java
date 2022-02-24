@@ -15,8 +15,9 @@ import java.util.Set;
 public class Hero extends GameObject{
     boolean left,up,right,down;
     boolean live = true;
-    Set<Character> direction = new LinkedHashSet<>();
-    ArrayList<Bullet> bullets = new ArrayList<>();
+    private Set<Character> direction = new LinkedHashSet<>();
+    private ArrayList<Bullet> bullets = new ArrayList<>();
+    private char lastkey = 'W';
 
 
     public Hero(Image img, double x, double y) {
@@ -26,7 +27,7 @@ public class Hero extends GameObject{
         this.speed = 3;
         this.width = img.getWidth(null);
         this.height = img.getHeight(null);
-        direction.add('L');
+//        direction.add('W');
     }
 
     public void reload(){
@@ -66,21 +67,29 @@ public class Hero extends GameObject{
         switch(e.getKeyCode()) {
             case KeyEvent.VK_A:
                 direction.add('W');
+                direction.remove('E');
+                lastkey='W';
                 right = false;
                 left = true;
                 break;
             case KeyEvent.VK_W:
                 direction.add('N');
+                direction.remove('S');
+                lastkey='N';
                 down = false;
                 up = true;
                 break;
             case KeyEvent.VK_D:
                 direction.add('E');
+                direction.remove('W');
+                lastkey='E';
                 left = false;
                 right = true;
                 break;
             case KeyEvent.VK_S:
                 direction.add('S');
+                direction.remove('N');
+                lastkey='S';
                 up = false;
                 down = true;
                 break;
@@ -91,20 +100,20 @@ public class Hero extends GameObject{
     public void minusDirection(KeyEvent e) {
         switch(e.getKeyCode()) {
             case KeyEvent.VK_A:
-                left = false;
                 direction.remove('W');
+                left = false;
                 break;
             case KeyEvent.VK_W:
-                up = false;
                 direction.remove('N');
+                up = false;
                 break;
             case KeyEvent.VK_D:
-                right = false;
                 direction.remove('E');
+                right = false;
                 break;
             case KeyEvent.VK_S:
-                down = false;
                 direction.remove('S');
+                down = false;
                 break;
         }
     }

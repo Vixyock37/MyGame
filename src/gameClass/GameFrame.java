@@ -17,7 +17,7 @@ public class GameFrame extends Frame {
     Image gansterImg = GameUtil.getImage("images/kittyfish.png");
     Image bg = GameUtil.getImage("images/bg.png");
 
-    Hero hero = new Hero(heroImg, 200, 200);
+    Hero hero = new Hero(heroImg, 634, 634);
 
     //    GansterGroup gansterGroupE = new GansterGroup('E');
 //    GansterGroup gansterGroupS = new GansterGroup('S');

@@ -29,12 +29,12 @@ public class Bullet extends GameObject{
 
         g.fillOval((int) x, (int) y, width, height);
 
-//        Iterator i = direction.iterator();
-//        System.out.println(this);
-//        while (i.hasNext()) {
-//            System.out.print(i.next());
-//        }
-//        System.out.println();
+        Iterator i = direction.iterator();
+        System.out.println(this);
+        while (i.hasNext()) {
+            System.out.print(i.next());
+        }
+        System.out.println();
 
         if(this.direction.contains('E')) this.x+=speed;
         if(this.direction.contains('W')) this.x-=speed;

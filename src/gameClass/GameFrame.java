@@ -38,7 +38,10 @@ public class GameFrame extends Frame {
         hero.drawSelf(g);
 
         for(Bullet herobullet: hero.getBullets()){
-            herobullet.drawBullet(g);
+            if(herobullet.judgePosOutOfBorder()) {
+                herobullet = null;
+            }else
+                herobullet.drawBullet(g);
         }
 
         //画出所有的匪徒(West gang)

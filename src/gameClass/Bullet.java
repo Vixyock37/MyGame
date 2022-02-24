@@ -11,7 +11,7 @@ import java.util.Set;
  */
 
 public class Bullet extends GameObject{
-    Set<Character> direction = new LinkedHashSet<>();
+    private Set<Character> direction = new LinkedHashSet<>();
 
     public Bullet(double x, double y){
         this.x = x;
@@ -19,6 +19,7 @@ public class Bullet extends GameObject{
         width = 13;
         height = 13;
         speed = 4;
+        direction = null;
     }
 
     public Bullet(double x, double y, Set<Character> tdirection){
@@ -36,15 +37,22 @@ public class Bullet extends GameObject{
 
         g.fillOval((int) x, (int) y, width, height);
 
-        if(direction.contains('E')) x+=speed;
-        if(direction.contains('W')) x-=speed;
-        if(direction.contains('N')) y-=speed;
-        if(direction.contains('S')) y+=speed;
+//        Iterator i = direction.iterator();
+//        System.out.println(this);
+//        while (i.hasNext()) {
+//            System.out.print(i.next());
+//        }
+//        System.out.println();
+
+        if(this.direction.contains('E')) this.x+=speed;
+        if(this.direction.contains('W')) this.x-=speed;
+        if(this.direction.contains('N')) this.y-=speed;
+        if(this.direction.contains('S')) this.y+=speed;
 
         g.setColor(c);
     }
 
-    public boolean JudgePosOutOfBorder(){
+    public boolean judgePosOutOfBorder(){
         if(x < 0 || x > Constant.GAME_WIDTH-width||y < 30 || y > Constant.GAME_HEIGHT-height) {
             return true;
         }

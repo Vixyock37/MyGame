@@ -23,7 +23,7 @@ public class Hero extends GameObject{
         this.img = img;
         this.x = x;
         this.y = y;
-        this.speed = 2;
+        this.speed = 3;
         this.width = img.getWidth(null);
         this.height = img.getHeight(null);
     }
@@ -101,6 +101,10 @@ public class Hero extends GameObject{
                 down = false;
                 break;
         }
+    }
+
+    public void setBullets(ArrayList<Bullet> bullets) {
+        this.bullets = bullets;
     }
 
     public ArrayList<Bullet> getBullets() {

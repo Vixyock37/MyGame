@@ -15,7 +15,7 @@ import java.util.Set;
 public class Hero extends GameObject {
     boolean left, up, right, down;
     boolean live = true;
-    boolean machineGun = false, rpg = false, skates = false;
+    boolean machineGun = false, rpg = false, skates = false, immortal = false;
     private String direction = "W";
     private ArrayList<HeroBullet> bullets = new ArrayList<>();
     private int shooting_speed;
@@ -49,8 +49,14 @@ public class Hero extends GameObject {
 
     @Override
     public void drawSelf(Graphics g) {
-        if(skates) this.speed=7;
+        if (skates) this.speed = 7;
         else this.speed = 3;
+        if(immortal)
+            this.width=this.height=0;
+        else {
+            this.width = img.getWidth(null);
+            this.height = img.getHeight(null);
+        }
         if (live) {
             g.drawImage(img, (int) x, (int) y, null);
             if (left) {
@@ -136,6 +142,9 @@ public class Hero extends GameObject {
             case KeyEvent.VK_F:
                 this.changeSkates();
                 break;
+            case KeyEvent.VK_SPACE:
+                this.changeImmortal();
+                break;
         }
     }
 
@@ -163,7 +172,8 @@ public class Hero extends GameObject {
         machineGun = !machineGun;
     }
 
-    public void changeSkates() {
-        skates=!skates;
-    }
+    public void changeSkates() { skates = !skates;  }
+
+    public void changeImmortal() { immortal = !immortal;    }
+
 }

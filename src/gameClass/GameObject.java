@@ -39,4 +39,9 @@ public class GameObject {
 
     //获取物体所在的矩形用于检测碰撞
     public Rectangle getRect(){return new Rectangle((int)x,(int)y, this.width, this.height);}
+
+    //物体消亡
+    public void die(){
+        this.height=this.width=this.speed=0;
+    }
 }

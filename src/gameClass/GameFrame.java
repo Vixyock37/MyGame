@@ -19,8 +19,8 @@ public class GameFrame extends Frame {
 
     Hero hero = new Hero(heroImg, 634, 634);
 
-    //    GansterGroup gansterGroupE = new GansterGroup('E');
-//    GansterGroup gansterGroupS = new GansterGroup('S');
+    GansterGroup gansterGroupE = new GansterGroup('E');
+    GansterGroup gansterGroupS = new GansterGroup('S');
     GansterGroup gansterGroupW = new GansterGroup('W');
     GansterGroup gansterGroupN = new GansterGroup('N');
     Hit hit;
@@ -39,13 +39,15 @@ public class GameFrame extends Frame {
         if (hero.live) {
             for (HeroBullet herobullet : hero.getBullets()) {
                 if (herobullet.judgePosOutOfBorder()) {
-                    herobullet = null;
+                    herobullet.die();
                 } else {
                     herobullet.drawBullet(g);
                     checkGansterHit(gansterGroupW, herobullet);
                     checkGansterHit(gansterGroupN, herobullet);
                 }
             }
+        } else {
+            hit.draw(g);
         }
 
         checkHeroHit(g, gansterGroupW, hero);
@@ -193,8 +195,9 @@ public class GameFrame extends Frame {
 
             if (crashed_hero_ganster) {
                 ganster.img = null;
-                ganster = null;
+                ganster.die();
                 hero.live = false;
+                hero.die();
                 if (hit == null) {
                     hit = new Hit(hero.x, hero.y);
                     endTime = new Date();
@@ -218,9 +221,9 @@ public class GameFrame extends Frame {
             boolean hit_ganster = herobullet.getRect().intersects(ganster.getRect());
             if (hit_ganster) {
                 ganster.img = null;
-                ganster.width = ganster.height = 0;
+                ganster.die();
                 ganster.life = false;
-                herobullet.height = herobullet.width = 0;
+                herobullet.die();
             }
         }
     }
@@ -231,8 +234,9 @@ public class GameFrame extends Frame {
                 boolean crashed_hero_ganster = bullet.getRect().intersects(hero.getRect());
 
                 if (crashed_hero_ganster) {
-                    bullet.width = bullet.height = 0;
+                    bullet.die();
                     hero.live = false;
+                    hero.die();
                     if (hit == null) {
                         hit = new Hit(hero.x, hero.y);
                         endTime = new Date();

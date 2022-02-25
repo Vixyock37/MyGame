@@ -85,7 +85,11 @@ public class Ganster extends GameObject {
         return bullets;
     }
 
-
+    @Override
+    public void die() {
+        super.die();
+        life=!life;
+    }
 
     @Override
     public String toString() {

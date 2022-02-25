@@ -157,7 +157,7 @@ public class GameFrame extends Frame {
     }
 
     public void launchFrame() {
-        this.setTitle("²âÊÔ");
+        this.setTitle("ÓÂÊ¿°¢Â×´óÕ½Ã¨ßä·ËÍ½ v3.4.2");
         this.setVisible(true);
         this.setSize(Constant.GAME_WIDTH, Constant.GAME_HEIGHT);
         this.setLocation(300, 0);

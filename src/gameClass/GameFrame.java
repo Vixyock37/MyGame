@@ -82,9 +82,9 @@ public class GameFrame extends Frame {
         @Override
         public void run() {
             while (true) {
-                hero.shoot();
                 try {
-                    Thread.sleep(1000);
+                    hero.shoot();
+                    Thread.sleep(hero.getShooting_speed());
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

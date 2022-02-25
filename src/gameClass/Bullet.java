@@ -12,6 +12,7 @@ import java.util.Set;
 
 public class Bullet extends GameObject{
     private String direction;
+    Color color;
 
     public Bullet(double x, double y){
         this.x = x;
@@ -19,9 +20,18 @@ public class Bullet extends GameObject{
         width = 20;
         height = 20;
         speed = 4;
-        direction = "W";
+        direction = "E";
     }
 
+    public Bullet(double x, double y,int speed){
+
+        this.x = x;
+        this.y = y;
+        width = 20;
+        height = 20;
+        this.speed = speed;
+        direction = "E";
+    }
 
     public void drawBullet(Graphics g) {
         Color c = g.getColor();
@@ -37,6 +47,11 @@ public class Bullet extends GameObject{
         g.setColor(c);
     }
 
+
+    public void setDirection(Character c){
+        direction = c.toString();
+    }
+
     public boolean judgePosOutOfBorder(){
         if(x < 0 || x > Constant.GAME_WIDTH-width||y < 30 || y > Constant.GAME_HEIGHT-height) {
             return true;
@@ -44,11 +59,11 @@ public class Bullet extends GameObject{
         else return false;
     }
 
-    public void setDirection(String tdirection) {
-        direction=tdirection;
-    }
-
     public String getDirection() {
         return direction;
+    }
+
+    public void setDirection(String tdirection) {
+        direction=tdirection;
     }
 }

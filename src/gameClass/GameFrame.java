@@ -36,22 +36,26 @@ public class GameFrame extends Frame {
 
         hero.drawSelf(g);
 
-        if(hero.live) {
-            for (Bullet herobullet : hero.getBullets()) {
+        if (hero.live) {
+            for (HeroBullet herobullet : hero.getBullets()) {
                 if (herobullet.judgePosOutOfBorder()) {
                     herobullet = null;
                 } else {
                     herobullet.drawBullet(g);
-                    checkGansterHit(gansterGroupW,herobullet);
-                    checkGansterHit(gansterGroupN,herobullet);
+                    checkGansterHit(gansterGroupW, herobullet);
+                    checkGansterHit(gansterGroupN, herobullet);
                 }
             }
         }
 
+        checkHeroHit(g, gansterGroupW, hero);
+
+        checkHeroHit(g, gansterGroupN, hero);
+
         //画出所有的匪徒(West gang)
-        checkHeroAndGanster(g,gansterGroupW);
+        checkHeroAndGanster(g, gansterGroupW);
         //画出所有的匪徒(North gang)
-        checkHeroAndGanster(g,gansterGroupN);
+        checkHeroAndGanster(g, gansterGroupN);
     }
 
 
@@ -61,10 +65,10 @@ public class GameFrame extends Frame {
         public void run() {
             while (true) {
                 try {
-                    int level = (int) (( new Date().getTime() - startTime.getTime()) / 1000);
-                    gansterGroupN.makeGansterGroup(gansterImg,level);
+                    int level = (int) ((new Date().getTime() - startTime.getTime()) / 1000);
+                    gansterGroupN.makeGansterGroup(gansterImg, level);
 //                    gansterGroupS.makeGansterGroup(gansterImg);
-                    gansterGroupW.makeGansterGroup(gansterImg,level);
+                    gansterGroupW.makeGansterGroup(gansterImg, level);
                     Thread.sleep(10);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -72,6 +76,7 @@ public class GameFrame extends Frame {
             }
         }
     }
+
     //此线程让英雄打枪
     class HeroShoot extends Thread {
         @Override
@@ -79,6 +84,26 @@ public class GameFrame extends Frame {
             while (true) {
                 hero.shoot();
                 try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    //此线程让匪徒打枪
+    class GansterShoot extends Thread {
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    for (Ganster ganster : gansterGroupN.getGansters()) {
+                        ganster.shoot();
+                    }
+                    for (Ganster ganster : gansterGroupW.getGansters()) {
+                        ganster.shoot();
+                    }
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -130,9 +155,11 @@ public class GameFrame extends Frame {
             }
         });
 
+        new GansterShoot().start();
         new HeroShoot().start();    //启动英雄打枪进程
         new PaintThread().start(); //启动重画窗口的线程
         new MakeGansterThread().start();    //启动匪徒出生线程
+
         addKeyListener(new KeyMonitor());
 
         //初始化匪徒
@@ -154,16 +181,19 @@ public class GameFrame extends Frame {
         g.drawImage(offScreenImage, 0, 0, null);
     }
 
-    public void checkHeroAndGanster(Graphics g, GansterGroup gansterGroup){
+    public void checkHeroAndGanster(Graphics g, GansterGroup gansterGroup) {
         for (Ganster ganster : gansterGroup.getGansters()) {
             ganster.drawGanster(g);
+            for (Bullet bullet : ganster.getBullets()) {
+                bullet.drawBullet(g);
+            }
 
             //匪徒和英雄的碰撞检测
             boolean crashed_hero_ganster = ganster.getRect().intersects(hero.getRect());
 
             if (crashed_hero_ganster) {
                 ganster.img = null;
-                ganster=null;
+                ganster = null;
                 hero.live = false;
                 if (hit == null) {
                     hit = new Hit(hero.x, hero.y);
@@ -183,13 +213,43 @@ public class GameFrame extends Frame {
         }
     }
 
-    public void checkGansterHit(GansterGroup gansterGroup,Bullet herobullet){
+    public void checkGansterHit(GansterGroup gansterGroup, HeroBullet herobullet) {
         for (Ganster ganster : gansterGroup.getGansters()) {
             boolean hit_ganster = herobullet.getRect().intersects(ganster.getRect());
             if (hit_ganster) {
                 ganster.img = null;
-                gansterGroup.getGansters().remove(ganster);
+                ganster.width = ganster.height = 0;
+                ganster.life = false;
+                herobullet.height = herobullet.width = 0;
             }
         }
+    }
+
+    public void checkHeroHit(Graphics g, GansterGroup gansterGroup, Hero hero) {
+        for (Ganster ganster : gansterGroup.getGansters()) {
+            for (Bullet bullet : ganster.getBullets()) {
+                boolean crashed_hero_ganster = bullet.getRect().intersects(hero.getRect());
+
+                if (crashed_hero_ganster) {
+                    bullet.width = bullet.height = 0;
+                    hero.live = false;
+                    if (hit == null) {
+                        hit = new Hit(hero.x, hero.y);
+                        endTime = new Date();
+                        period = (int) ((endTime.getTime() - startTime.getTime()) / 1000);
+                    }
+                    hit.draw(g);
+                }
+
+                //计时功能，给出提示
+                if (!hero.live) {
+                    Font f = new Font("宋体", Font.BOLD, 30);
+                    g.setFont(f);
+                    g.setColor(Color.black);
+                    g.drawString("游戏时间：" + period + "秒", 150, 250);
+                }
+            }
+        }
+
     }
 }

@@ -16,7 +16,7 @@ public class Hero extends GameObject{
     boolean left,up,right,down;
     boolean live = true;
     private String direction= "W";
-    private ArrayList<Bullet> bullets = new ArrayList<>();
+    private ArrayList<HeroBullet> bullets = new ArrayList<>();
 
 
     String s;
@@ -31,7 +31,7 @@ public class Hero extends GameObject{
     }
 
     public void reload(){
-        Bullet bullet = new Bullet(this.x+20, this.y+20);
+        HeroBullet bullet = new HeroBullet(this.x+20, this.y+20);
         bullet.setDirection(direction);
         bullets.add(bullet);
     }
@@ -96,11 +96,11 @@ public class Hero extends GameObject{
         }
     }
 
-    public void setBullets(ArrayList<Bullet> bullets) {
+    public void setBullets(ArrayList<HeroBullet> bullets) {
         this.bullets = bullets;
     }
 
-    public ArrayList<Bullet> getBullets() {
+    public ArrayList<HeroBullet> getBullets() {
         return bullets;
     }
 }

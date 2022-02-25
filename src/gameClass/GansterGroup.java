@@ -38,8 +38,8 @@ public class GansterGroup {
 
     //∑ÀÕΩ¿≠∞ÔΩ·≈…
     public void makeGansterGroup(Image img,int period) throws InterruptedException {
-        if (gansters.size() < 60) {
-            int random = (new Random().nextInt(3)*(period/2))+2;
+        if (gansters.size() < 20) {
+            int random = (new Random().nextInt(2)*(period/2))+1;
             int amount_once = random>10?10:random;
             for (int i = 0; i < amount_once; i++) {
                 Ganster ganster = this.makeGanster(img);

@@ -1,6 +1,7 @@
 package gameClass;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -11,6 +12,9 @@ import java.util.Random;
 public class Ganster extends GameObject {
     //匪徒帮派，匪徒将向帮派的反方向行走
     private char gang;
+    private ArrayList<Bullet> bullets = new ArrayList<>();
+    private Character direction;
+    boolean life = true;
 
     public Ganster(Image img, double x, double y, char gang) {
         this.img = img;
@@ -21,6 +25,32 @@ public class Ganster extends GameObject {
         //妈的这里忘了给宽高赋值debug到凌晨十二点，傻逼
         this.width = img.getWidth(null);
         this.height = img.getHeight(null);
+
+        switch (gang) {
+            case 'E':
+                direction='W';
+                break;
+            case 'S':
+                direction='N';
+                break;
+            case 'W':
+                direction='E';
+                break;
+            case 'N':
+                direction='S';
+                break;
+        }
+    }
+
+    public void reload(){
+        Bullet bullet = new Bullet(this.x+20, this.y+20,this.speed+2);
+        bullet.setDirection(direction);
+        bullets.add(bullet);
+    }
+
+    public void shoot() {
+        if(this.life)
+            reload();
     }
 
 
@@ -50,6 +80,12 @@ public class Ganster extends GameObject {
             this.speed = new Random().nextInt(4) + 1;
         }
     }
+
+    public ArrayList<Bullet> getBullets() {
+        return bullets;
+    }
+
+
 
     @Override
     public String toString() {

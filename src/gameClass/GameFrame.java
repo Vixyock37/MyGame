@@ -44,20 +44,25 @@ public class GameFrame extends Frame {
                     herobullet.drawBullet(g);
                     checkGansterHit(gansterGroupW, herobullet);
                     checkGansterHit(gansterGroupN, herobullet);
+                    checkGansterHit(gansterGroupE, herobullet);
+                    checkGansterHit(gansterGroupS, herobullet);
                 }
             }
         } else {
             hit.draw(g);
         }
 
+        //检测英雄是否被击中
         checkHeroHit(g, gansterGroupW, hero);
-
         checkHeroHit(g, gansterGroupN, hero);
+        checkHeroHit(g, gansterGroupE, hero);
+        checkHeroHit(g, gansterGroupS, hero);
 
-        //画出所有的匪徒(West gang)
+        //画出所有的匪徒并检测英雄与匪徒是否碰撞
         checkHeroAndGanster(g, gansterGroupW);
-        //画出所有的匪徒(North gang)
         checkHeroAndGanster(g, gansterGroupN);
+        checkHeroAndGanster(g, gansterGroupE);
+        checkHeroAndGanster(g, gansterGroupS);
     }
 
 
@@ -69,8 +74,9 @@ public class GameFrame extends Frame {
                 try {
                     int level = (int) ((new Date().getTime() - startTime.getTime()) / 1000);
                     gansterGroupN.makeGansterGroup(gansterImg, level);
-//                    gansterGroupS.makeGansterGroup(gansterImg);
+                    gansterGroupS.makeGansterGroup(gansterImg,level);
                     gansterGroupW.makeGansterGroup(gansterImg, level);
+                    gansterGroupE.makeGansterGroup(gansterImg, level);
                     Thread.sleep(10);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -103,7 +109,13 @@ public class GameFrame extends Frame {
                     for (Ganster ganster : gansterGroupN.getGansters()) {
                         ganster.shoot();
                     }
+                    for (Ganster ganster : gansterGroupE.getGansters()) {
+                        ganster.shoot();
+                    }
                     for (Ganster ganster : gansterGroupW.getGansters()) {
+                        ganster.shoot();
+                    }
+                    for (Ganster ganster : gansterGroupS.getGansters()) {
                         ganster.shoot();
                     }
                     Thread.sleep(1000);

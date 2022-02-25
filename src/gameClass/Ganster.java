@@ -28,28 +28,28 @@ public class Ganster extends GameObject {
 
         switch (gang) {
             case 'E':
-                direction='W';
+                direction = 'W';
                 break;
             case 'S':
-                direction='N';
+                direction = 'N';
                 break;
             case 'W':
-                direction='E';
+                direction = 'E';
                 break;
             case 'N':
-                direction='S';
+                direction = 'S';
                 break;
         }
     }
 
-    public void reload(){
-        Bullet bullet = new Bullet(this.x+20, this.y+20,this.speed+2);
+    public void reload() {
+        Bullet bullet = new Bullet(this.x + 20, this.y + 20, this.speed + 2);
         bullet.setDirection(direction);
         bullets.add(bullet);
     }
 
     public void shoot() {
-        if(this.life)
+        if (this.life)
             reload();
     }
 
@@ -71,11 +71,19 @@ public class Ganster extends GameObject {
                 break;
         }
 //        System.out.println(this.toString());
-        if (x < 0 || x > Constant.GAME_WIDTH - width) {
+        if (gang == 'W' && x > Constant.GAME_WIDTH - width) {
             x = Constant.GAME_WIDTH - x;
             this.speed = new Random().nextInt(4) + 1;
         }
-        if (y < 0 || y > Constant.GAME_HEIGHT - height) {
+        if (gang == 'E' && x < -width) {
+            x = Constant.GAME_WIDTH - x;
+            this.speed = new Random().nextInt(4) + 1;
+        }
+        if (gang == 'N' && y > Constant.GAME_HEIGHT - height) {
+            y = Constant.GAME_HEIGHT;
+            this.speed = new Random().nextInt(4) + 1;
+        }
+        if (gang == 'S' && y < -height) {
             y = Constant.GAME_HEIGHT;
             this.speed = new Random().nextInt(4) + 1;
         }
@@ -88,7 +96,7 @@ public class Ganster extends GameObject {
     @Override
     public void die() {
         super.die();
-        life=!life;
+        life = !life;
     }
 
     @Override
